@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import Signin from "./pages/Signin";
 import NoMatch from './pages/NoMatch';
 import { GlobalContext } from './contexts/GlobalContext';
-
+// import { useAsyncError } from './utils/Helper';
 
 const Wrapper = styled.div`
   &.modal-open:before {
@@ -37,6 +37,8 @@ const App = () => {
   const [modal, setModal] = useState(false);
   const [cart, setCart] = useState([]);
 
+  // const throwError = useAsyncError();
+
   const openModal = (arg) => {
       setModal(arg);
   }
@@ -50,6 +52,7 @@ const App = () => {
           const data = await res.json();
           setCategories(data);
       } catch (err) {
+          // throwError(new Error("Asynchronous Error"), err);
           console.log(err);
       } 
   }

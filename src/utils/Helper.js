@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const priceFormat = (price) => {
   return price.toLocaleString('en-IN', {
     style: 'currency',
@@ -14,3 +16,12 @@ export const smoothScrollToTop = () => {
     behavior: 'smooth'
   });
 };
+
+export const useAsyncError = () => {
+  const [_, setError] = React.useState();
+  return React.useCallback(error => {
+    setError(() => {
+      throw error;
+    });
+  }, [setError]);
+}

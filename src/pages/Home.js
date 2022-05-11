@@ -2,6 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 import Carousel from "../components/Carousel";
 import FlexCards from "../components/FlexCards";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const Container = styled.main`
   margin: 10px 10%;
@@ -12,7 +13,9 @@ const Home = () => {
     <>
       <Container>
         <Carousel />
-        <FlexCards />
+        <ErrorBoundary>
+          <FlexCards />
+        </ErrorBoundary>
       </Container>
     </>
   );
