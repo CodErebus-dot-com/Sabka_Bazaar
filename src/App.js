@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from "./pages/Home";
 import Products from "./pages/Products";
+import Register from "./pages/Register";
+import Signin from "./pages/Signin";
 import NoMatch from './pages/NoMatch';
 import { GlobalContext } from './contexts/GlobalContext';
 
@@ -24,6 +26,11 @@ const Wrapper = styled.div`
     display: block;
   }
 `;
+
+const BodyWrapper = styled.div`
+  min-height: 100vh;
+`;
+
 
 const App = () => {
   const [categories, setCategories] = useState([]);
@@ -61,14 +68,18 @@ const App = () => {
       <GlobalContext.Provider value={{categories, cart, setCart, handleAddProduct}}>
         <Wrapper className={modal && 'modal-open'} onClick={event => modal && !event.target.closest('.modal') && openModal(!modal)}>
           <Navbar openModal={openModal} modal={modal} />
-            <Routes>
-              <Route path = "/" element = {<Home />} />
-              <Route path = "products" element = {<Products />}>
-                <Route index element = {<Products />} />
-                <Route path = ":id" element = {<Products />} />
-              </Route>
-              <Route path = "*" element = {<NoMatch/>} />
-            </Routes>
+            <BodyWrapper>
+              <Routes>
+                <Route path = "/" element = {<Home />} />
+                <Route path = "products" element = {<Products />}>
+                  <Route index element = {<Products />} />
+                  <Route path = ":id" element = {<Products />} />
+                </Route>
+                <Route path = "register" element = {<Register />} />
+                <Route path = "signin" element = {<Signin />} />
+                <Route path = "*" element = {<NoMatch/>} />
+              </Routes>
+            </BodyWrapper>
           <Footer />
         </Wrapper>
       </GlobalContext.Provider>

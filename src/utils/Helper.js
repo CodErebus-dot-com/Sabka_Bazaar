@@ -10,7 +10,7 @@ export const useProductsFilter = (products, id) => id ? products.filter(product 
 
 export const smoothScrollToTop = () => {
   window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+    top: 0,
+    behavior: 'smooth'
   });
 };
