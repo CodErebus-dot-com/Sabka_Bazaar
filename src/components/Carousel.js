@@ -87,7 +87,7 @@ const Carousel = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('http://localhost:8080/banners')
+            const response = await fetch('http://localhost:5000/banners')
             .then(res => res.json())
             .catch(err => console.log(err));
             setBanners(response);

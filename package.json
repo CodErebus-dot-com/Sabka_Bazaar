@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "server": "json-server --watch --port 8082",
+    "server": "json-server --watch --port 5000 ./server/db.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

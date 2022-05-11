@@ -46,7 +46,7 @@ const App = () => {
 
   const fetchCategories = async () => {
       try{
-          const res = await fetch('http://localhost:8081/categories');
+          const res = await fetch('http://localhost:5000/categories');
           const data = await res.json();
           setCategories(data);
       } catch (err) {
