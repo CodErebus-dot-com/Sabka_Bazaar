@@ -7,11 +7,22 @@ import ErrorBoundary from './ErrorBoundary';
 
 const Modal = styled.section`
     position: fixed;
-    bottom: 0;
     height: 80vh;
     width: 35vw;
     z-index: 99;
     background-color: #fff;
+    &.modal-open{
+        animation: showModal 1s ease-in-out;
+        bottom: 0;
+    }
+    @keyframes showModal{
+        0%{
+            bottom: -80vh;
+        }
+        100%{
+            bottom: 0;
+        }
+    }
 `;
 
 const ModalHeader = styled.div`
@@ -198,70 +209,70 @@ const ModalComponent = ({openModal, modal}) => {
 
     
   return (
-    <Modal className='modal'>
+    <Modal className={modal && 'modal-open'}>
         <ErrorBoundary>
-            <ModalHeader>
-                <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
-                <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
-            </ModalHeader>
-            <ModalBody>
-            {
-                totalItemsInCart === 0 ? (
-                    <EmptyCart>
-                        <Title>No items in your cart</Title>
-                        <Subtitle>Your favorite items are just a click away</Subtitle>
-                    </EmptyCart>        
-                ) : (
-                    <CartBody>
-                    {
-                        cart?.length > 0 && cart?.map(item => {
-                            return (
-                                <CartWrapper key={item?.id}>
-                                    <Image src={item?.imageURL} alt={item?.name} />
-                                    <CartItemWrapper>
-                                        <Title>{item?.name}</Title>
-                                        <PricingWrapper>
-                                            <CounterWrapper>
-                                                <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
-                                                <Text>{item?.quantity}</Text>
-                                                <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
-                                                <Text>X {item?.price}</Text>
-                                            </CounterWrapper>
-                                            <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
-                                        </PricingWrapper>
-                                    </CartItemWrapper>
-                                </CartWrapper>
-                            )
-                        })
-                    }
-                        <LowestPriceWrapper>
-                            <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
-                            <Text>You won't find it cheaper anywhere</Text>      
-                        </LowestPriceWrapper>
-                    </CartBody>
-                )
-            }
-            </ModalBody>
-            <ModalFooter>
-                <CartFooterWrapper>
+                <ModalHeader>
+                    <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
+                    <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
+                </ModalHeader>
+                <ModalBody>
                 {
                     totalItemsInCart === 0 ? (
-                        
-                            <CartFooter className='empty-cart' onClick={handleStartShopping}>
-                                <Text>Start Shopping</Text>
-                            </CartFooter>
-                        
+                        <EmptyCart>
+                            <Title>No items in your cart</Title>
+                            <Subtitle>Your favorite items are just a click away</Subtitle>
+                        </EmptyCart>        
                     ) : (
-                        <>
-                            <Text>Promo code can be applied on payment page</Text>
-                            <CartFooter>
-                                <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
-                            </CartFooter>
-                        </>
+                        <CartBody>
+                        {
+                            cart?.length > 0 && cart?.map(item => {
+                                return (
+                                    <CartWrapper key={item?.id}>
+                                        <Image src={item?.imageURL} alt={item?.name} />
+                                        <CartItemWrapper>
+                                            <Title>{item?.name}</Title>
+                                            <PricingWrapper>
+                                                <CounterWrapper>
+                                                    <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
+                                                    <Text>{item?.quantity}</Text>
+                                                    <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
+                                                    <Text>X {item?.price}</Text>
+                                                </CounterWrapper>
+                                                <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
+                                            </PricingWrapper>
+                                        </CartItemWrapper>
+                                    </CartWrapper>
+                                )
+                            })
+                        }
+                            <LowestPriceWrapper>
+                                <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
+                                <Text>You won't find it cheaper anywhere</Text>      
+                            </LowestPriceWrapper>
+                        </CartBody>
                     )
                 }
-                </CartFooterWrapper>
-            </ModalFooter>
+                </ModalBody>
+                <ModalFooter>
+                    <CartFooterWrapper>
+                    {
+                        totalItemsInCart === 0 ? (
+                            
+                                <CartFooter className='empty-cart' onClick={handleStartShopping}>
+                                    <Text>Start Shopping</Text>
+                                </CartFooter>
+                            
+                        ) : (
+                            <>
+                                <Text>Promo code can be applied on payment page</Text>
+                                <CartFooter>
+                                    <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
+                                </CartFooter>
+                            </>
+                        )
+                    }
+                    </CartFooterWrapper>
+                </ModalFooter>
         </ErrorBoundary>
     </Modal>
 );
