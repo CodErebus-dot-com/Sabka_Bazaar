@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
+import ErrorBoundary from './ErrorBoundary';
 
 const Container = styled.section`
     height: 50vh;
@@ -101,22 +102,24 @@ const Carousel = () => {
     }
     
   return (
-    <Container>
-        <NavButtons navButton = 'back_button' onClick = {() => handleClick('back')}>Back</NavButtons>
-        <Wrapper slideIndex = {slideIndex}>
-            {banners?.length > 0 && banners?.map(banner => (
-                <Slide key = {banner?.id}>
-                    <Image src = {banner?.bannerImageUrl} alt = {banner?.bannerImageAlt} />
-                </Slide>
-            ))}
-        </Wrapper>
-        <CarouselDots>
-            {banners?.length > 0 && banners.map((banner, index) => (
-                <Dot key = {banner.id} onClick={() => setSlideIndex(index)} className = {slideIndex === index && 'active'} />
-            ))}
-        </CarouselDots>
-        <NavButtons navButton = 'next_button' onClick = {() => handleClick('next')}>Next</NavButtons>
-    </Container>
+      <ErrorBoundary>
+        <Container>
+            <NavButtons navButton = 'back_button' onClick = {() => handleClick('back')}>Back</NavButtons>
+            <Wrapper slideIndex = {slideIndex}>
+                {banners?.length > 0 && banners?.map(banner => (
+                    <Slide key = {banner?.id}>
+                        <Image src = {banner?.bannerImageUrl} alt = {banner?.bannerImageAlt} />
+                    </Slide>
+                ))}
+            </Wrapper>
+            <CarouselDots>
+                {banners?.length > 0 && banners.map((banner, index) => (
+                    <Dot key = {banner.id} onClick={() => setSlideIndex(index)} className = {slideIndex === index && 'active'} />
+                ))}
+            </CarouselDots>
+            <NavButtons navButton = 'next_button' onClick = {() => handleClick('next')}>Next</NavButtons>
+        </Container>
+    </ErrorBoundary>
   )
 }
 

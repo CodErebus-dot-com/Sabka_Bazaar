@@ -52,7 +52,7 @@ const App = () => {
           const data = await res.json();
           setCategories(data);
       } catch (err) {
-          // throwError(new Error("Asynchronous Error"), err);
+          // throwError(new Error("Asynchronous Error"));
           console.log(err);
       } 
   }

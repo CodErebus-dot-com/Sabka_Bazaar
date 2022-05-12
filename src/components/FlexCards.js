@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useContext, useCallback } from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
+import ErrorBoundary from './ErrorBoundary';
 
 const Section = styled.section``;
 
@@ -65,32 +66,36 @@ const FlexCards = () => {
         {categories?.length > 0 && categories?.sort((a,b) => a.order-b.order)?.map((category) => (
             category?.enabled && (
                 category?.order % 2 === 0 ? (
+                    <ErrorBoundary>
                     <Container key={category?.id}>  
-                        <ContentContainer>
-                            <Wrapper>    
-                                <Title>{category?.name}</Title>
-                                <Subtitle>{category?.description}</Subtitle>
-                                <Button onClick={() => handleProductCategories(category?.id)}>Explore {category?.key}</Button>
-                            </Wrapper>
-                        </ContentContainer>
-                        <ImgContainer>
-                            <Image src = {category?.imageUrl} />
-                        </ImgContainer>
-                    </Container>        
+                            <ContentContainer>
+                                <Wrapper>    
+                                    <Title>{category?.name}</Title>
+                                    <Subtitle>{category?.description}</Subtitle>
+                                    <Button onClick={() => handleProductCategories(category?.id)}>Explore {category?.key}</Button>
+                                </Wrapper>
+                            </ContentContainer>
+                            <ImgContainer>
+                                <Image src = {category?.imageUrl} />
+                            </ImgContainer>
+                        </Container>        
+                    </ErrorBoundary>
                 ) : 
                 (
-                    <Container key={category?.id}>  
-                        <ImgContainer>
-                            <Image src = {category?.imageUrl} />
-                        </ImgContainer>
-                        <ContentContainer>
-                            <Wrapper>
-                                <Title>{category?.name}</Title>
-                                <Subtitle>{category?.description}</Subtitle>
-                                <Button onClick={() => handleProductCategories(category?.id)}>Explore {category?.key}</Button>
-                            </Wrapper>
-                        </ContentContainer>
-                    </Container>
+                    <ErrorBoundary>  
+                        <Container key={category?.id}>
+                            <ImgContainer>
+                                <Image src = {category?.imageUrl} />
+                            </ImgContainer>
+                            <ContentContainer>
+                                <Wrapper>
+                                    <Title>{category?.name}</Title>
+                                    <Subtitle>{category?.description}</Subtitle>
+                                    <Button onClick={() => handleProductCategories(category?.id)}>Explore {category?.key}</Button>
+                                </Wrapper>
+                            </ContentContainer>
+                        </Container>
+                    </ErrorBoundary>
                 )
             )
         ))}

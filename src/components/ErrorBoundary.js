@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
-import Fallback from '../pages/Fallback';
+import ErrorFallbackUI from '../pages/ErrorFallbackUI';
 
 class ErrorBoundary extends Component {
-    constructor(props) {
-      super(props);
-    
-      this.state = {
-        error: false,
-      }
-    }
+  state = { error: false, errorMessage: "" };
 
-    static getDerivedStateFromError(error) {
-        return { error };
-    }
+  static getDerivedStateFromError(error) {
+    return { error: true, errorMessage: error.toString() };
+  }
 
-    componentDidCatch(error, errorInfo) {
-        console.log('Logging', error, errorInfo);
-    }
+  componentDidCatch(error, errorInfo) {
+    console.log({ error, errorInfo });
+  }
 
-    render() {
-        return this.state.error ? <Fallback /> : this.props.children;
-    }
+  render() {
+    const { error, errorMessage } = this.state;
+    const { children } = this.props;
+
+    return error ? <ErrorFallbackUI {...{ error, errorMessage }} /> : children;
+  }
 }
 
 export default ErrorBoundary;
