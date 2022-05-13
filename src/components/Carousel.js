@@ -30,6 +30,9 @@ const NavButtons = styled.button`
         transform: scale(1.1);
         transition: all 0.3s ease-in-out;
     }
+    &:active, &:focus, &:visited {
+        outline: none;
+    }
     z-index: 2;
 `;
 

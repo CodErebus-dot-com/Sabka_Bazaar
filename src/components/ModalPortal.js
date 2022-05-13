@@ -1,4 +1,5 @@
 import React, { useContext, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { priceFormat, smoothScrollToTop } from '../utils/Helper';
@@ -8,21 +9,11 @@ import ErrorBoundary from './ErrorBoundary';
 const Modal = styled.section`
     position: fixed;
     height: 80vh;
-    bottom: -80vh;
-    width: 35vw;
+    right: 60px;
+    width: 30vw;
     z-index: 99;
-    box-shadow: 5px 3px 30px black;
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255,255,255,.9);
-        filter: blur(10px);
-        z-index: -1;
-    }
+    box-shadow: 5px 3px 30px #000;
+    background-color: #fff;
     &.modal-open{
         animation: showModal 1s ease-in-out;
         bottom: 0;
@@ -211,7 +202,8 @@ const CartFooter = styled.button`
     }
 `;
 
-const ModalComponent = ({openModal, modal}) => {
+
+const ModalPortal = ({openModal, modal}) => {
     const { cart, setCart, handleAddProduct } = useContext(GlobalContext);
     const totalItemsInCart = cart.reduce((acc, curr) => (acc + curr.quantity), 0);
     const cartTotal = cart.reduce((acc, curr) => (acc + curr.quantity * curr.price), 0);
@@ -231,76 +223,75 @@ const ModalComponent = ({openModal, modal}) => {
         openModal(!modal);
         smoothScrollToTop();
     }, [navigate]);
-
-    
-  return (
-    <Modal className={modal && 'modal-open'}>
-        <ErrorBoundary>
-                <ModalHeader>
-                    <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
-                    <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
-                </ModalHeader>
-                <ModalBody>
-                {
-                    totalItemsInCart === 0 ? (
-                        <EmptyCart>
-                            <Title>No items in your cart</Title>
-                            <Subtitle>Your favorite items are just a click away</Subtitle>
-                        </EmptyCart>        
-                    ) : (
-                        <CartBody>
-                        {
-                            cart?.length > 0 && cart?.map(item => {
-                                return (
-                                    <CartWrapper key={item?.id}>
-                                        <Image src={item?.imageURL} alt={item?.name} />
-                                        <CartItemWrapper>
-                                            <Title>{item?.name}</Title>
-                                            <PricingWrapper>
-                                                <CounterWrapper>
-                                                    <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
-                                                    <Text>{item?.quantity}</Text>
-                                                    <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
-                                                    <Text>X {item?.price}</Text>
-                                                </CounterWrapper>
-                                                <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
-                                            </PricingWrapper>
-                                        </CartItemWrapper>
-                                    </CartWrapper>
-                                )
-                            })
-                        }
-                            <LowestPriceWrapper>
-                                <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
-                                <Text>You won't find it cheaper anywhere</Text>      
-                            </LowestPriceWrapper>
-                        </CartBody>
-                    )
-                }
-                </ModalBody>
-                <ModalFooter>
-                    <CartFooterWrapper>
+   
+        return ReactDOM.createPortal(
+        <Modal className={modal && 'modal-open'}>
+            <ErrorBoundary>
+                    <ModalHeader>
+                        <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
+                        <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
+                    </ModalHeader>
+                    <ModalBody>
                     {
                         totalItemsInCart === 0 ? (
-                            
-                                <CartFooter className='empty-cart' onClick={handleStartShopping}>
-                                    <Text>Start Shopping</Text>
-                                </CartFooter>
-                            
+                            <EmptyCart>
+                                <Title>No items in your cart</Title>
+                                <Subtitle>Your favorite items are just a click away</Subtitle>
+                            </EmptyCart>        
                         ) : (
-                            <>
-                                <Text>Promo code can be applied on payment page</Text>
-                                <CartFooter>
-                                    <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
-                                </CartFooter>
-                            </>
+                            <CartBody>
+                            {
+                                cart?.length > 0 && cart?.map(item => {
+                                    return (
+                                        <CartWrapper key={item?.id}>
+                                            <Image src={item?.imageURL} alt={item?.name} />
+                                            <CartItemWrapper>
+                                                <Title>{item?.name}</Title>
+                                                <PricingWrapper>
+                                                    <CounterWrapper>
+                                                        <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
+                                                        <Text>{item?.quantity}</Text>
+                                                        <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
+                                                        <Text>X {item?.price}</Text>
+                                                    </CounterWrapper>
+                                                    <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
+                                                </PricingWrapper>
+                                            </CartItemWrapper>
+                                        </CartWrapper>
+                                    )
+                                })
+                            }
+                                <LowestPriceWrapper>
+                                    <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
+                                    <Text>You won't find it cheaper anywhere</Text>      
+                                </LowestPriceWrapper>
+                            </CartBody>
                         )
                     }
-                    </CartFooterWrapper>
-                </ModalFooter>
-        </ErrorBoundary>
-    </Modal>
-);
+                    </ModalBody>
+                    <ModalFooter>
+                        <CartFooterWrapper>
+                        {
+                            totalItemsInCart === 0 ? (
+                                
+                                    <CartFooter className='empty-cart' onClick={handleStartShopping}>
+                                        <Text>Start Shopping</Text>
+                                    </CartFooter>
+                                
+                            ) : (
+                                <>
+                                    <Text>Promo code can be applied on payment page</Text>
+                                    <CartFooter>
+                                        <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
+                                    </CartFooter>
+                                </>
+                            )
+                        }
+                        </CartFooterWrapper>
+                    </ModalFooter>
+            </ErrorBoundary>
+        </Modal>,  
+        document.getElementById('modal-root'))   
 }
 
-export default ModalComponent;
+export default ModalPortal;

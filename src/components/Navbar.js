@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import ModalComponent from './CartModal';
+import ModalPortal from './ModalPortal';
 import { useContext } from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
 
@@ -104,6 +104,9 @@ const StyledLink = styled(NavLink)`
             width: 0;
         }
     }
+    &:active, &:focus, &:visited {
+        outline: none;
+    }
 `;
 
 const Navbar = ({openModal, modal}) => {
@@ -130,7 +133,7 @@ const Navbar = ({openModal, modal}) => {
                     <img src={process.env.PUBLIC_URL + 'static/images/cart.svg'} alt='Cart Icon' style = {{height: 30, width: 50}} />
                     <CartSubListItem>{totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'}</CartSubListItem>
                 </CartIcon>
-                {modal && <ModalComponent openModal={openModal} modal={modal} />}
+                {modal && <ModalPortal openModal={openModal} modal={modal} />}
             </Right>
         </Wrapper>
     </Container>

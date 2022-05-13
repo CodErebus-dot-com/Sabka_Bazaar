@@ -73,12 +73,16 @@ const Button = styled.button`
   cursor: pointer;
   &:hover {
     background-color: rgb(190,0,50);
-    transition: .5s;
+    transform: scale(1.1);
+    transition: all 0.5s ease-in-out;
   }
   &:disabled {
-      background-color: #cccccc;
-      color: black;
-      cursor: not-allowed;
+    background-color: #cccccc;
+    color: black;
+    cursor: not-allowed;
+  }
+  &:active, &:focus, &:visited {
+    outline: none;
   }
 `;
 
