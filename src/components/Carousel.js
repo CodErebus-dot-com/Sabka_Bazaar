@@ -27,7 +27,8 @@ const NavButtons = styled.button`
     right: ${props => props.navButton === 'next_button' && '0%'};
     &:hover {
         background-color: #2b2d2f;
-        transition: .5s;
+        transform: scale(1.1);
+        transition: all 0.3s ease-in-out;
     }
     z-index: 2;
 `;

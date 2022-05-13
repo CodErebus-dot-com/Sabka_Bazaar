@@ -8,9 +8,21 @@ import ErrorBoundary from './ErrorBoundary';
 const Modal = styled.section`
     position: fixed;
     height: 80vh;
+    bottom: -80vh;
     width: 35vw;
     z-index: 99;
-    background-color: #fff;
+    box-shadow: 5px 3px 30px black;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,.9);
+        filter: blur(10px);
+        z-index: -1;
+    }
     &.modal-open{
         animation: showModal 1s ease-in-out;
         bottom: 0;
@@ -21,6 +33,15 @@ const Modal = styled.section`
         }
         100%{
             bottom: 0;
+        }
+    }
+    animation: hideModal 1s ease-in-out;
+    @keyframes hideModal{
+        0%{
+            bottom: 0;
+        }
+        100%{
+            bottom: -80vh;
         }
     }
 `;
@@ -44,6 +65,10 @@ const ModalCloseButton = styled.button`
     color: #fff;
     font-weight: 600;
     font-size: 20px;
+    &:hover{
+        transform: scale(1.1);
+        transition: all 0.3s ease-in-out;
+    }
 `;
 const ModalBody = styled.div`
     height: 70%;
