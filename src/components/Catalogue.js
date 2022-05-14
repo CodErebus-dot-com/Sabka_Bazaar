@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { priceFormat, useProductsFilter } from '../utils/Helper';
+import { priceFormat, useProductsFilter, isDesktop, isTablet } from '../utils/Helper';
 import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../contexts/GlobalContext';
 
 const Container = styled.section`
-  width: 100%;
-  margin: 20px;
+    width: 100%;  
+    margin: 20px;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: ${isDesktop() ? '1fr 1fr 1fr' : (isTablet() ? 'repeat(auto-fill, minmax(200px, 1fr))' : '')};
   gap: 30px;
 `;
 

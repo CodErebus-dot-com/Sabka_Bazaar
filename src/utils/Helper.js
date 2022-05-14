@@ -25,3 +25,11 @@ export const useAsyncError = () => {
     });
   }, [setError]);
 }
+
+const MIN_WIDTH_FOR_MOBILE = 480;
+const MIN_WIDTH_FOR_TABLET = 768;
+const MIN_WIDTH_FOR_DESKTOP = 1024;
+
+export const isMobile = () => window.innerWidth < MIN_WIDTH_FOR_MOBILE;
+export const isTablet = () => window.innerWidth <= MIN_WIDTH_FOR_DESKTOP && window.innerWidth >= MIN_WIDTH_FOR_TABLET;
+export const isDesktop = () => window.innerWidth >= MIN_WIDTH_FOR_DESKTOP;

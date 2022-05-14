@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { isTablet, isDesktop } from '../utils/Helper'
 
 const Container = styled.footer`
     background-color: rgba(105,105,105,0.2);
@@ -7,6 +8,7 @@ const Container = styled.footer`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
 `;
 
 const Footer = () => {

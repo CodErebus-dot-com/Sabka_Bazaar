@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Catalogue from '../components/Catalogue';
 import ErrorBoundary from '../components/ErrorBoundary';
+import { isTablet, isDesktop } from '../utils/Helper';
 
 const Container = styled.main`
-  margin: 10px 10%;
+  margin: ${isTablet() ? '0' : (isDesktop ? '10px 10%' : '')};
   display: flex;
 `;
 

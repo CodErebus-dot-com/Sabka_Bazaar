@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { useContext } from 'react';
+import { isDesktop, isTablet } from '../utils/Helper';
 
 const Wrapper = styled.aside`
     display: flex;
@@ -11,7 +12,7 @@ const Wrapper = styled.aside`
     min-height: 100vh;
     border: 1px solid rgba(105,105,105, .5);
     height: auto;
-    width: 15vw;
+    width: ${isTablet() ? '25vw' : (isDesktop ? '20vw' : '')};
 `;
 
 const StyledLink = styled(Link)`
@@ -23,6 +24,7 @@ const StyledLink = styled(Link)`
     &:hover, &:visited, &:active, &:link, &:focus {
         text-decoration: none;
     }
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
 `;
 
 const Sidebar = () => {

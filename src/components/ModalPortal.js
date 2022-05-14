@@ -2,15 +2,15 @@ import React, { useContext, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { GlobalContext } from '../contexts/GlobalContext';
-import { priceFormat, smoothScrollToTop } from '../utils/Helper';
+import { priceFormat, smoothScrollToTop, isDesktop, isTablet } from '../utils/Helper';
 import { useNavigate } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 
 const Modal = styled.section`
     position: fixed;
-    height: 80vh;
-    right: 60px;
-    width: 30vw;
+    height: ${isTablet() ? '70vh' : (isDesktop() ? '80vh' : '')};
+    right: ${isTablet() ? '20px' : (isDesktop() ? '60px' : '')};
+    width: ${isTablet() ? '50vw' : (isDesktop() ? '30vw' : '')};
     z-index: 99;
     box-shadow: 5px 3px 30px #000;
     background-color: #fff;
@@ -38,7 +38,7 @@ const Modal = styled.section`
 `;
 
 const ModalHeader = styled.div`
-    height: 10%;
+    height: ${isTablet() ? '5%' : (isDesktop() ? '10%' : '')};
     background-color: #2b2d2f;
     color: #fff;
     display: flex;
@@ -47,7 +47,7 @@ const ModalHeader = styled.div`
     padding: 0 20px;
 `;
 const ModalTitle = styled.h1`
-    font-size: 20px;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
 `;
 const ModalCloseButton = styled.button`
     background-color: transparent;
@@ -55,14 +55,14 @@ const ModalCloseButton = styled.button`
     cursor: pointer;
     color: #fff;
     font-weight: 600;
-    font-size: 20px;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
     &:hover{
         transform: scale(1.1);
         transition: all 0.3s ease-in-out;
     }
 `;
 const ModalBody = styled.div`
-    height: 70%;
+    height: ${isTablet() ? '80%' : (isDesktop() ? '70%' : '')};
     overflow-y: auto;
 `;
 
@@ -76,11 +76,11 @@ const EmptyCart = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 18px;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '18px' : '')};
 `;
 
 const Subtitle = styled.p`
-    font-size: 14px;
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
     margin-top: 10px;
 `
 
@@ -100,7 +100,6 @@ const CartWrapper = styled.div`
 
 const Image = styled.img`
   height: 50px;
-  width: 50px;
 `;
 
 const CartItemWrapper = styled.div`
@@ -113,7 +112,8 @@ const CartItemWrapper = styled.div`
 `;
 
 const Price = styled.div`
-  font-weight: 600;
+    font-weight: 600;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '18px' : '')};
 `;
 
 const CounterWrapper = styled.div`
@@ -129,7 +129,7 @@ const PricingWrapper = styled.div`
 `;
 
 const Counter = styled.button`
-    font-size: 20px;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
     cursor: pointer;
     background-color: rgb(217,0,76);
     color: white;
@@ -153,7 +153,7 @@ const Counter = styled.button`
 
 const Text = styled.p`
     margin: 0 10px;
-    font-size: 16px;
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
 `;
 
 const LowestPriceWrapper = styled.div`
@@ -171,8 +171,8 @@ const LowestPriceImage = styled.img`
 `;
 
 const ModalFooter = styled.div`
-    height: 25%;
-    margin: 20px;  
+    height: ${isTablet() ? '15%' : (isDesktop() ? '20%' : '')};
+    margin: ${isTablet() ? '10px' : (isDesktop() ? '20px' : '')};  
 `;
 
 const CartFooterWrapper = styled.div`

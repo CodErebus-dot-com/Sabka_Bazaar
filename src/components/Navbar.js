@@ -3,14 +3,15 @@ import { NavLink } from 'react-router-dom';
 import ModalPortal from './ModalPortal';
 import { useContext } from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
+import { isTablet, isDesktop } from '../utils/Helper';
 
 const Container = styled.header`
-    height: 100px;
-    padding: 10px 10%;
+    height: ${isTablet() ? '80px' : (isDesktop() ? '100px' : '')};
     /* display: flex;
     justify-content: center;
     align-items: center; */
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
+    padding: ${isTablet() ? '0' : (isDesktop() ? '10px 10%' : '')};
 `;
 
 const Wrapper = styled.nav`
@@ -20,6 +21,8 @@ const Wrapper = styled.nav`
 
 const Left = styled.div`
     flex: .5;
+    display: flex;
+    align-items: center;
 `;
 const Center = styled.div`
     flex: 2;
@@ -32,7 +35,11 @@ const Right = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: ${isTablet() ? 'flex-end' : (isDesktop() ? 'center' : '')};
+`;
+
+const Logo = styled.img`
+    height: ${isTablet() ? '80%' : (isDesktop() ? '100%' : '')};
 `;
 
 const CenterListItem = styled.span`
@@ -118,7 +125,7 @@ const Navbar = ({openModal, modal}) => {
     <Container>
         <Wrapper>
             <Left>
-                <img src={process.env.PUBLIC_URL + 'static/images/logo.png'} alt="Sabka Bazaar Logo" />
+                <Logo src={process.env.PUBLIC_URL + 'static/images/logo.png'} alt="Sabka Bazaar Logo" />
             </Left>
             <Center>
                 <CenterListItem><StyledLink to = '/' className='navlink-hover'>Home</StyledLink></CenterListItem>

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import ErrorBoundary from './ErrorBoundary';
+import { isTablet, isDesktop } from '../utils/Helper';
 
 const Container = styled.section`
-    height: 50vh;
+    height: ${isTablet() ? '30vh' : (isDesktop() ? '50vh' : '')};
     display: flex;
     position: relative;
     overflow: hidden;
@@ -18,7 +19,8 @@ const NavButtons = styled.button`
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: .5rem 1rem;
-    height: 50px;
+    padding: ${isTablet() ? '0 .5rem' : (isDesktop() ? '.5rem 1rem' : '')};
+    height: ${isTablet() ? '40px' : (isDesktop() ? '50px' : '')};
     position: absolute;
     top: 0;
     bottom: 0;
@@ -44,7 +46,7 @@ const Wrapper = styled.div`
 `;
 
 const Slide = styled.div`
-    height: 40vh;
+    height: ${isTablet() ? '25vh' : (isDesktop() ? '40vh' : '')};
     width: 100vw;
     display: flex;
     align-items: center;
@@ -52,7 +54,7 @@ const Slide = styled.div`
 
 const Image = styled.img`
     height: 100%;
-    width: 80%;
+    width: ${isTablet() ? '100%' : (isDesktop() ? '80%' : '')};
 `;
 
 const CarouselDots = styled.div`

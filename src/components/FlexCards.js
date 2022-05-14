@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { useContext, useCallback } from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
 import ErrorBoundary from './ErrorBoundary';
+import { isTablet, isDesktop } from '../utils/Helper';
 
 const Section = styled.section``;
 
 const Container = styled.article`
     display: flex;
     align-items: center;
-    height: 25vh;
+    height: ${isTablet() ? '15vh' : (isDesktop() ? '25vh' : '')};
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
 `;
 
@@ -18,8 +19,7 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-    height: 150px;
-    widht: 150px;
+    height: ${isTablet() ? '120px' : (isDesktop() ? '150px' : '')};
 `;
 
 const ContentContainer = styled.div`
@@ -33,10 +33,12 @@ const Wrapper = styled.div``;
 
 const Title = styled.h1`
     font-size: 20px;
+    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
     margin-bottom: 10px;
 `;
-const Subtitle = styled.div`
+const Subtitle = styled.p`
     margin-bottom: 10px;
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
 `;
 
 const Button = styled.button`
@@ -44,6 +46,7 @@ const Button = styled.button`
     color: white;
     padding: 10px;
     border-radius: 2px;
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
     border: none;
     cursor: pointer;
     &:hover {
