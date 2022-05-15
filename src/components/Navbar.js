@@ -1,22 +1,26 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import ModalPortal from './ModalPortal';
-import { useContext } from 'react';
-import { GlobalContext } from '../contexts/GlobalContext';
-import { isTablet, isDesktop } from '../utils/Helper';
+import { isTablet, isDesktop, isMobile } from '../utils/Helper';
+import CartIcon from './CartIcon';
+import Burger from './Burger';
 
 const Container = styled.header`
-    height: ${isTablet() ? '80px' : (isDesktop() ? '100px' : '')};
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
+    height: ${isTablet() ? '80px' : (isDesktop() ? '100px' : '60px')};
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
     padding: ${isTablet() ? '0' : (isDesktop() ? '10px 10%' : '')};
+    margin-bottom: ${isTablet() ? '20px' : (isDesktop() ? '' : '')};
+    z-index: 9;
+    background-color: #fff;
 `;
 
 const Wrapper = styled.nav`
     display: flex;
     min-width: 100%;
+    height: 100%;
 `;
 
 const Left = styled.div`
@@ -33,13 +37,14 @@ const Center = styled.div`
 const Right = styled.div`
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row nowrap; 
+    justify-content: flex-end;
     align-items: ${isTablet() ? 'flex-end' : (isDesktop() ? 'center' : '')};
 `;
 
 const Logo = styled.img`
-    height: ${isTablet() ? '80%' : (isDesktop() ? '100%' : '')};
+    height: ${isTablet() ? '70px' : (isDesktop() ? '100%' : '50px')};
+    width: ${isTablet() ? '140px' : (isDesktop() ? '100%' : '100px')};
 `;
 
 const CenterListItem = styled.span`
@@ -52,16 +57,7 @@ const CenterListItem = styled.span`
 `;
 
 const RightListItem = styled.div`
-    display: flex;
-`;
-
-const CartIcon = styled.div`
-    display: flex;
-    background-color: rgba(105,105,105,0.1);
-    border: 1px solid rgba(105,105,105, .5);
-    border-radius: 2px;
-    padding: .5rem 1rem;
-    cursor: pointer;
+    flex-direction: column;
 `;
 
 const CartListItem = styled.span`
@@ -71,13 +67,6 @@ const CartListItem = styled.span`
     opacity: 0.75;
     color: #2b2d2f;
     margin-left: 25px;
-`;
-
-const CartSubListItem = styled.span`
-    display: flex;
-    align-items: flex-end;
-    font-weight: 500;
-    font-size: 16px;
 `;
 
 const StyledLink = styled(NavLink)`
@@ -117,30 +106,35 @@ const StyledLink = styled(NavLink)`
 `;
 
 const Navbar = ({openModal, modal}) => {
-    const { cart } = useContext(GlobalContext);
-    const totalItemsInCart = cart.reduce((acc, curr) => (acc + curr.quantity), 0);
-    
     
   return (
     <Container>
         <Wrapper>
             <Left>
-                <Logo src={process.env.PUBLIC_URL + 'static/images/logo.png'} alt="Sabka Bazaar Logo" />
+                <NavLink to = '/'>
+                    <Logo src={process.env.PUBLIC_URL + 'static/images/logo.png'} alt="Sabka Bazaar Logo" />
+                </NavLink>
             </Left>
             <Center>
-                <CenterListItem><StyledLink to = '/' className='navlink-hover'>Home</StyledLink></CenterListItem>
-                <CenterListItem><StyledLink to = '/products' className='navlink-hover'>Products</StyledLink></CenterListItem>
+            {
+                isMobile() ? '' : (<>
+                    <CenterListItem><StyledLink to = '/' className='navlink-hover'>Home</StyledLink></CenterListItem>
+                    <CenterListItem><StyledLink to = '/products' className='navlink-hover'>Products</StyledLink></CenterListItem>
+                </>)
+            }   
             </Center>
             <Right>
-                <RightListItem>
-                    <CartListItem><StyledLink to = '/signin' className='navlink-hover'>Sign In</StyledLink></CartListItem>
-                    <CartListItem><StyledLink to = '/register' className='navlink-hover'>Register</StyledLink></CartListItem>
-                </RightListItem>
-                <CartIcon onClick={() => openModal(true)}>
-                    <img src={process.env.PUBLIC_URL + 'static/images/cart.svg'} alt='Cart Icon' style = {{height: 30, width: 50}} />
-                    <CartSubListItem>{totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'}</CartSubListItem>
-                </CartIcon>
-                {modal && <ModalPortal openModal={openModal} modal={modal} />}
+            {
+                isMobile() ? (<Burger />) : (
+                    <RightListItem>
+                        <CartListItem><StyledLink to = '/signin' className='navlink-hover'>Sign In</StyledLink></CartListItem>
+                        <CartListItem><StyledLink to = '/register' className='navlink-hover'>Register</StyledLink></CartListItem>
+                        <CartIcon openModal={openModal} />
+                        {modal && <ModalPortal openModal={openModal} modal={modal} />}
+                    </RightListItem>
+                )
+            }
+                
             </Right>
         </Wrapper>
     </Container>

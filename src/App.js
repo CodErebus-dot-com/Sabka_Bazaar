@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Dropdown from './components/Dropdown';
 import Footer from './components/Footer';
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -9,6 +10,7 @@ import Register from "./pages/Register";
 import Signin from "./pages/Signin";
 import NoMatch from './pages/NoMatch';
 import { GlobalContext } from './contexts/GlobalContext';
+import { isMobile } from './utils/Helper';
 // import { useAsyncError } from './utils/Helper';
 
 const Wrapper = styled.div`
@@ -25,6 +27,7 @@ const Wrapper = styled.div`
   &.modal-open {
     display: block;
   }
+  overflow: hidden;
 `;
 
 const BodyWrapper = styled.div`
@@ -70,6 +73,7 @@ const App = () => {
     <BrowserRouter>
       <GlobalContext.Provider value={{categories, cart, setCart, handleAddProduct}}>
         <Wrapper className={modal && 'modal-open'} onClick={event => modal && !event.target.closest('.modal') && openModal(!modal)}>
+          {/* {isMobile() ? <Dropdown openModal={openModal} modal={modal} /> : <Navbar openModal={openModal} modal={modal} />} */}
           <Navbar openModal={openModal} modal={modal} />
             <BodyWrapper>
               <Routes>
