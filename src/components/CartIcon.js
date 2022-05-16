@@ -1,18 +1,20 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { GlobalContext } from '../contexts/GlobalContext';
-import { isTablet, isDesktop } from '../utils/Helper';
+import { isTablet, isDesktop, isMobile } from '../utils/Helper';
 
 const Container = styled.div`
     display: flex;
-    background-color: rgba(105,105,105,0.1);
+    background-color: ${isMobile() ? '#fff' : 'rgba(105,105,105,0.1)'};
     border: 1px solid rgba(105,105,105, .5);
-    border-radius: 2px;
+    border-radius: ${isMobile() ? '50%' : '2px'};
     padding: .5rem 1rem;
-    padding: ${isTablet() ? '.5rem' : (isDesktop() ? '.5rem 1rem' : '')};
+    padding: ${isTablet() ? '.5rem' : (isDesktop() ? '.5rem 1rem' : '.75rem')};
     cursor: pointer;
+    position: ${isMobile() ? 'fixed' : ''};
+    bottom: ${isMobile() ? '2rem' : ''};
+    right: ${isMobile() ? '1.5rem' : ''};
 `;
-
 
 const CartListItem = styled.span`
     display: flex;
@@ -22,8 +24,8 @@ const CartListItem = styled.span`
 `;
 
 const Image = styled.img`
-    height: 30px;
-    width: 50px;
+    height: ${isMobile() ? '40px' : '30px'};
+    width: ${isMobile() ? '30px' : '50px'};
 `;
 
 const CartIcon = ({openModal}) => {
@@ -33,7 +35,7 @@ const CartIcon = ({openModal}) => {
   return (
     <Container onClick={() => openModal(true)}>
         <Image src={process.env.PUBLIC_URL + 'static/images/cart.svg'} alt='Cart Icon' />
-        <CartListItem>{totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'}</CartListItem>
+        <CartListItem>{totalItemsInCart} {isMobile() ? '' : (totalItemsInCart === 1 ? ' Item' : ' Items')}</CartListItem>
     </Container>
   )
 }

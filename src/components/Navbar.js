@@ -125,7 +125,12 @@ const Navbar = ({openModal, modal}) => {
             </Center>
             <Right>
             {
-                isMobile() ? (<Burger />) : (
+                isMobile() ? (
+                    <>
+                        <Burger />
+                        <CartIcon openModal={openModal} />
+                    </>
+                ) : (
                     <RightListItem>
                         <CartListItem><StyledLink to = '/signin' className='navlink-hover'>Sign In</StyledLink></CartListItem>
                         <CartListItem><StyledLink to = '/register' className='navlink-hover'>Register</StyledLink></CartListItem>
@@ -134,7 +139,6 @@ const Navbar = ({openModal, modal}) => {
                     </RightListItem>
                 )
             }
-                
             </Right>
         </Wrapper>
     </Container>
