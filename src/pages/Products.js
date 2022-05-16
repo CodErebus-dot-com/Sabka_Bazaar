@@ -1,21 +1,22 @@
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
+import Dropdown from '../components/Dropdown';
 import Catalogue from '../components/Catalogue';
 import ErrorBoundary from '../components/ErrorBoundary';
-import { isTablet, isDesktop } from '../utils/Helper';
+import { isDesktop, isMobile } from '../utils/Helper';
 
 const Container = styled.main`
-  margin: ${isTablet() ? '0' : (isDesktop ? '10px 20%' : '')};
+  margin: ${isDesktop() ? '10px 20%' : ''};
   display: flex;
+  flex-direction: ${isMobile() ? 'column' : 'row'};
 `;
 
 const Products = () => {
-
   return (
     <>
       <Container>
         <ErrorBoundary>
-          <Sidebar />
+          {isMobile() ? <Dropdown /> : <Sidebar />}
           <Catalogue />
         </ErrorBoundary>
       </Container>

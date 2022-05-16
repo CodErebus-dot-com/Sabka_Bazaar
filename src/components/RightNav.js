@@ -1,8 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components'
-import { isMobile } from '../utils/Helper';
+import styled from 'styled-components';
 
-const Ul = styled.ul`
+const UnorderedList = styled.ul`
   list-style: none;
     flex-flow: column nowrap;
     background-color: #fff;
@@ -58,12 +57,12 @@ const ListItem = styled.li`
 
 const RightNav = ({ open, setOpen }) => {
   return (
-    <Ul open={open}>
+    <UnorderedList open={open}>
       <ListItem onClick={() => setOpen(!open)}><StyledLink to='/' className='navlink-hover'>Home</StyledLink></ListItem>
       <ListItem onClick={() => setOpen(!open)}><StyledLink to='/products' className='navlink-hover'>Products</StyledLink></ListItem>
       <ListItem onClick={() => setOpen(!open)}><StyledLink to='/signin' className='navlink-hover'>Sign In</StyledLink></ListItem>
       <ListItem onClick={() => setOpen(!open)}><StyledLink to='/register' className='navlink-hover'>Register</StyledLink></ListItem>
-    </Ul>
+    </UnorderedList>
   )
 }
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Dropdown from './components/Dropdown';
 import Footer from './components/Footer';
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -10,7 +9,7 @@ import Register from "./pages/Register";
 import Signin from "./pages/Signin";
 import NoMatch from './pages/NoMatch';
 import { GlobalContext } from './contexts/GlobalContext';
-import { isMobile } from './utils/Helper';
+import { useCategoriesFilter } from './utils/Helper';
 // import { useAsyncError } from './utils/Helper';
 
 const Wrapper = styled.div`
@@ -53,7 +52,7 @@ const App = () => {
       try{
           const res = await fetch('http://localhost:5000/categories');
           const data = await res.json();
-          setCategories(data);
+          setCategories(useCategoriesFilter(data));
       } catch (err) {
           // throwError(new Error("Asynchronous Error"));
           console.log(err);
@@ -73,20 +72,19 @@ const App = () => {
     <BrowserRouter>
       <GlobalContext.Provider value={{categories, cart, setCart, handleAddProduct}}>
         <Wrapper className={modal && 'modal-open'} onClick={event => modal && !event.target.closest('.modal') && openModal(!modal)}>
-          {/* {isMobile() ? <Dropdown openModal={openModal} modal={modal} /> : <Navbar openModal={openModal} modal={modal} />} */}
           <Navbar openModal={openModal} modal={modal} />
-            <BodyWrapper>
-              <Routes>
-                <Route path = "/" element = {<Home />} />
-                <Route path = "products" element = {<Products />}>
-                  <Route index element = {<Products />} />
-                  <Route path = ":id" element = {<Products />} />
-                </Route>
-                <Route path = "register" element = {<Register />} />
-                <Route path = "signin" element = {<Signin />} />
-                <Route path = "*" element = {<NoMatch/>} />
-              </Routes>
-            </BodyWrapper>
+          <BodyWrapper>
+            <Routes>
+              <Route path = "/" element = {<Home />} />
+              <Route path = "products" element = {<Products />}>
+                <Route index element = {<Products />} />
+                <Route path = ":id" element = {<Products />} />
+              </Route>
+              <Route path = "register" element = {<Register />} />
+              <Route path = "signin" element = {<Signin />} />
+              <Route path = "*" element = {<NoMatch/>} />
+            </Routes>
+          </BodyWrapper>
           <Footer />
         </Wrapper>
       </GlobalContext.Provider>

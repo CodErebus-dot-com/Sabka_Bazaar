@@ -32,10 +32,8 @@ const Sidebar = () => {
   return (
     <>
         <Wrapper>
-            {categories?.length > 0 && categories?.sort((a,b) => a.order-b.order)?.map((category) => (
-                category?.enabled && (
-                    <StyledLink key = {category?.id} to = {`/products/${category?.id}`}>{category?.name}</StyledLink>
-                )
+            {categories?.length > 0 && categories?.map((category) => (
+                <StyledLink key = {category?.id} to = {`/products/${category?.id}`}>{category?.name}</StyledLink>
             ))}
         </Wrapper>
     </>

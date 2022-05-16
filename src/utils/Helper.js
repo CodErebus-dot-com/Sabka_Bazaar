@@ -7,6 +7,7 @@ export const priceFormat = (price) => {
   });
 };
 
+export const useCategoriesFilter = (categories) => categories.filter(category => category.enabled).sort((a, b) => a.order - b.order);
 
 export const useProductsFilter = (products, id) => id ? products.filter(product => product?.category === id) : products;
 
