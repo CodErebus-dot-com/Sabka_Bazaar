@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.main`
-  margin: 10px 10%;
+  margin: 10px 20%;
   display: flex;
 `;
 

@@ -11,7 +11,7 @@ const Container = styled.header`
     // justify-content: center;
     // align-items: center;
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
-    padding: ${isTablet() ? '0' : (isDesktop() ? '10px 10%' : '')};
+    padding: ${isTablet() ? '0' : (isDesktop() ? '10px 20%' : '')};
     margin-bottom: ${isTablet() ? '20px' : (isDesktop() ? '' : '')};
     z-index: 9;
     background-color: #fff;

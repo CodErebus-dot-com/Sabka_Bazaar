@@ -12,7 +12,7 @@ const Wrapper = styled.aside`
     min-height: 100vh;
     border: 1px solid rgba(105,105,105, .5);
     height: auto;
-    width: ${isTablet() ? '25vw' : (isDesktop ? '20vw' : '')};
+    width: ${isTablet() ? '25vw' : (isDesktop ? '15vw' : '')};
 `;
 
 const StyledLink = styled(Link)`

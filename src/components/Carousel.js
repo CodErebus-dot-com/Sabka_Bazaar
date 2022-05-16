@@ -4,7 +4,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { isTablet, isDesktop } from '../utils/Helper';
 
 const Container = styled.section`
-    height: ${isTablet() ? '30vh' : (isDesktop() ? '50vh' : '')};
+    height: ${isTablet() ? '30vh' : (isDesktop() ? '40vh' : '')};
     display: flex;
     position: relative;
     overflow: hidden;
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 `;
 
 const Slide = styled.div`
-    height: ${isTablet() ? '25vh' : (isDesktop() ? '40vh' : '')};
+    height: ${isTablet() ? '25vh' : (isDesktop() ? '35vh' : '')};
     width: 100vw;
     display: flex;
     align-items: center;
@@ -54,7 +54,7 @@ const Slide = styled.div`
 
 const Image = styled.img`
     height: 100%;
-    width: ${isTablet() ? '100%' : (isDesktop() ? '80%' : '')};
+    width: ${isTablet() ? '100%' : (isDesktop() ? '60%' : '')};
 `;
 
 const CarouselDots = styled.div`

@@ -5,7 +5,7 @@ import FlexCards from "../components/FlexCards";
 import { isTablet, isDesktop } from "../utils/Helper";
 
 const Container = styled.main`
-  margin: ${isTablet() ? '0' : (isDesktop ? '10px 10%' : '')};
+  margin: ${isTablet() ? '0' : (isDesktop ? '10px 20%' : '')};
 `;
 
 const Home = () => {
