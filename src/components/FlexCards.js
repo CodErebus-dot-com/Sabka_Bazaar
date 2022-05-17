@@ -20,6 +20,7 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
     height: ${(isTablet() || isMoblet()) ? '120px' : (isDesktop() ? '150px' : '80px')};
+    width: ${(isTablet() || isMoblet()) ? '180px' : (isDesktop() ? '200px' : '120px')};
 `;
 
 const ContentContainer = styled.div`
