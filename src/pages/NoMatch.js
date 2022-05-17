@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.main`
+const Container = styled.section`
     height: 80vh;
     display: flex;
     justify-content: center;

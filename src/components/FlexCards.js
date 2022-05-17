@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { useContext, useCallback } from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
 import ErrorBoundary from './ErrorBoundary';
-import { isTablet, isDesktop } from '../utils/Helper';
+import { isTablet, isDesktop, isMobile, isMoblet } from '../utils/Helper';
 
 const Section = styled.section``;
 
 const Container = styled.article`
     display: flex;
     align-items: center;
-    height: ${isTablet() ? '15vh' : (isDesktop() ? '25vh' : '')};
+    height: ${isTablet() ? '15vh' : ((isDesktop() || isMoblet()) ? '25vh' : '20vh')};
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
 `;
 
@@ -19,7 +19,7 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-    height: ${isTablet() ? '120px' : (isDesktop() ? '150px' : '')};
+    height: ${(isTablet() || isMoblet()) ? '120px' : (isDesktop() ? '150px' : '80px')};
 `;
 
 const ContentContainer = styled.div`
@@ -33,25 +33,26 @@ const Wrapper = styled.div``;
 
 const Title = styled.h1`
     font-size: 20px;
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
+    font-size: ${isDesktop() ? '20px' : '16px'};
     margin-bottom: 10px;
 `;
 const Subtitle = styled.p`
     margin-bottom: 10px;
-    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
+    font-size: ${isDesktop() ? '16px' : '14px'};
 `;
 
 const Button = styled.button`
     background-color: rgb(217,0,76);
     color: white;
-    padding: 10px;
+    padding: ${isMobile() ? '5px' : '10px'};
     border-radius: 2px;
-    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
+    font-weight: 500;
+    font-size: ${isDesktop() ? '16px' : '14px'};
     border: none;
     cursor: pointer;
     &:hover {
         background-color: rgb(190,0,50);
-        transform: scale(1.1);
+        transform: ${isMobile() ? '' : scale(1.1)};
         transition: all 0.5s ease-in-out;
     }
     &:active, &:focus, &:visited {
@@ -70,11 +71,10 @@ const FlexCards = () => {
 
   return (
     <Section>
-        {categories?.length > 0 && categories?.sort((a,b) => a.order-b.order)?.map((category) => (
-            category?.enabled && (
+        {categories?.length > 0 && categories?.map((category) => (
                 category?.order % 2 === 0 ? (
-                    <ErrorBoundary>
-                    <Container key={category?.id}>  
+                    <ErrorBoundary key={category?.id}>
+                    <Container>  
                             <ContentContainer>
                                 <Wrapper>    
                                     <Title>{category?.name}</Title>
@@ -83,16 +83,16 @@ const FlexCards = () => {
                                 </Wrapper>
                             </ContentContainer>
                             <ImgContainer>
-                                <Image src = {category?.imageUrl} />
+                                <Image src = {category?.imageUrl} alt = {category?.name}/>
                             </ImgContainer>
                         </Container>        
                     </ErrorBoundary>
                 ) : 
                 (
-                    <ErrorBoundary>  
-                        <Container key={category?.id}>
+                    <ErrorBoundary key={category?.id}>  
+                        <Container>
                             <ImgContainer>
-                                <Image src = {category?.imageUrl} />
+                                <Image src = {category?.imageUrl} alt = {category?.name}/>
                             </ImgContainer>
                             <ContentContainer>
                                 <Wrapper>
@@ -104,7 +104,6 @@ const FlexCards = () => {
                         </Container>
                     </ErrorBoundary>
                 )
-            )
         ))}
     </Section>
   )

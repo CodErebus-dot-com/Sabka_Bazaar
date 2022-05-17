@@ -29,8 +29,7 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
-const BodyWrapper = styled.div`
-  min-height: 100vh;
+const BodyWrapper = styled.main`
 `;
 
 

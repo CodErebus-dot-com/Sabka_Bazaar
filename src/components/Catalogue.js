@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { priceFormat, useProductsFilter, isDesktop, isTablet } from '../utils/Helper';
+import { priceFormat, useProductsFilter, isDesktop, isTablet, isMobile, isMoblet } from '../utils/Helper';
 import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../contexts/GlobalContext';
 
 const Container = styled.section`
-    width: 100%;  
+    width: ${isMobile() ? '90%' : '100%'};  
     margin: 20px;
 `;
 
@@ -26,10 +26,14 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
+const RWDWrapper = styled.div`
+  display: ${(isMobile() || isMoblet()) ? 'flex' : ''};
+`;
+
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px;
+  margin: ${(isMobile() || isMoblet()) ? '' : '20px'};
 `;
 
 const CellHeader = styled.div`
@@ -37,24 +41,31 @@ const CellHeader = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 18px;
+  font-size: ${isDesktop() ? '18px' : '16px'};
 `;
 
 const Image = styled.img`
-  height: 200px;
-  width: 200px;
+  height: ${isDesktop() ? '200px' : (isTablet() ? '150px' : '120px')};
+  width: ${isDesktop() ? '200px' : (isTablet() ? '150px' : '120px')};
 `;
+
+const ProductInfoWrapper = styled.div`
+  display: ${(isMobile() || isMoblet()) ? 'flex' : ''};
+  flex-direction: ${(isMobile() || isMoblet()) ? 'column' : ''};
+`;
+
 const Description = styled.div`
   background-color: rgba(105,105,105, .1);
   padding: 10px;
   border-radius: 2px;
   border: 1px solid rgba(105,105,105, .5);
   height: 80px;
-  overflow: scroll;
+  font-size: ${isDesktop() ? '16px' : '14px'};
+  overflow-y: scroll;
 `;
 
 const CellFooter = styled.div`
-  margin: 20px 0;
+  margin: ${isMobile() ? '10px 0' : '20px 0'};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,13 +78,14 @@ const Price = styled.div`
 const Button = styled.button`
   background-color: rgb(217,0,76);
   color: white;
-  padding: 10px 50px;
+  padding: ${isMobile() ? '5px 10px' : '10px 50px'};
   border: none;
   border-radius: 2px;
   cursor: pointer;
+  width: ${(isMobile() || isMoblet()) ? '100%' : ''};
   &:hover {
     background-color: rgb(190,0,50);
-    transform: scale(1.1);
+    transform: ${isMobile() ? '' : scale(1.1)};
     transition: all 0.5s ease-in-out;
   }
   &:disabled {
@@ -122,14 +134,20 @@ const Catalogue = () => {
                 <CellHeader>
                   <Title>{product?.name}</Title>
                 </CellHeader>
-                <ImageContainer>
-                  <Image src = {product?.imageURL} alt = {product?.name}/>
-                </ImageContainer>
-                <Description>{product?.description}</Description>
-                <CellFooter>
-                  <Price>MRP {priceFormat(product?.price)}</Price>
-                  <Button onClick={() => handleAddProduct(product)} disabled={product?.stock === 0}>Buy Now</Button>
-                </CellFooter>
+                <RWDWrapper>
+                  <ImageContainer>
+                    <Image src = {product?.imageURL} alt = {product?.name}/>
+                  </ImageContainer>
+                  <ProductInfoWrapper>
+                    <Description>{product?.description}</Description>
+                    <CellFooter>
+                      {(isMobile() || isMoblet()) ? '' : <Price>MRP {priceFormat(product?.price)}</Price>}
+                      <Button onClick={() => handleAddProduct(product)} disabled={product?.stock === 0}>
+                        Buy Now {(isMobile() || isMoblet()) ? ` @  ${priceFormat(product?.price)}` : ''}
+                      </Button>
+                    </CellFooter>
+                  </ProductInfoWrapper>
+                </RWDWrapper>
               </ContentContainer>
             </GridCell>
           ))

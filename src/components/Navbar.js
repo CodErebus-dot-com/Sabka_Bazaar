@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import ModalPortal from './ModalPortal';
-import { isTablet, isDesktop, isMobile } from '../utils/Helper';
+import { isTablet, isDesktop, isMobile, isMoblet } from '../utils/Helper';
 import CartIcon from './CartIcon';
 import Burger from './Burger';
 
 const Container = styled.header`
-    height: ${isTablet() ? '80px' : (isDesktop() ? '100px' : '60px')};
+    height: ${(isTablet() || isMoblet()) ? '80px' : (isDesktop() ? '100px' : '60px')};
     // display: flex;
     // justify-content: center;
     // align-items: center;
     box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.1);
-    padding: ${isTablet() ? '0' : (isDesktop() ? '10px 20%' : '')};
+    padding: ${isTablet() ? '0' : (isDesktop() ? '10px 10%' : '')};
     margin-bottom: ${isTablet() ? '20px' : (isDesktop() ? '' : '')};
     z-index: 9;
     background-color: #fff;

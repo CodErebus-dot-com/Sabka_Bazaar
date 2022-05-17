@@ -8,7 +8,7 @@ const Container = styled.footer`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
+    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '12px')};
 `;
 
 const Footer = () => {

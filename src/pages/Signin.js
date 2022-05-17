@@ -1,14 +1,16 @@
 import styled from 'styled-components';
+import { isMobile, isDesktop } from '../utils/Helper';
 
-const Container = styled.main`
-  margin: 10px 20%;
+const Container = styled.section`
+  margin: ${isDesktop() ? '10px 10%' : ''};
   display: flex;
 `;
 
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-around;
+  flex-direction: ${isMobile() ? 'column' : ''};
 `;
 
 const Left = styled.div``;
@@ -19,7 +21,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   margin-top: 30px;
-
+  font-size: ${isMobile() ? '14px' : '16px'};
 `;
 
 const Right = styled.div``;
@@ -32,7 +34,7 @@ const Form = styled.form`
 const Input = styled.input`
   border: none;
   border-bottom: 1px solid black;
-  width: 300px;
+  width: ${isMobile() ? '100%' : '300px'};
   outline: none;
   margin-top: 30px;
   font-size: 16px;

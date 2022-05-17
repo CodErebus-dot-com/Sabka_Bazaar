@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import ErrorBoundary from './ErrorBoundary';
-import { isTablet, isDesktop } from '../utils/Helper';
+import { isTablet, isDesktop, isMobile, isMoblet } from '../utils/Helper';
 
 const Container = styled.section`
-    height: ${isTablet() ? '30vh' : (isDesktop() ? '40vh' : '')};
+    height: ${(isTablet() || isMoblet()) ? '30vh' : (isDesktop() ? '40vh' : '20vh')};
     display: flex;
     position: relative;
     overflow: hidden;
@@ -19,8 +19,9 @@ const NavButtons = styled.button`
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: .5rem 1rem;
-    padding: ${isTablet() ? '0 .5rem' : (isDesktop() ? '.5rem 1rem' : '')};
-    height: ${isTablet() ? '40px' : (isDesktop() ? '50px' : '')};
+    display: ${isMobile() ? 'none' : ''};
+    padding: ${(isTablet() || isMoblet()) ? '0 .5rem' : (isDesktop() ? '.5rem 1rem' : '')};
+    height: ${isTablet() ? '40px' : (isDesktop() ? '50px' : '30px')};
     position: absolute;
     top: 0;
     bottom: 0;
@@ -39,14 +40,14 @@ const NavButtons = styled.button`
 `;
 
 const Wrapper = styled.div`
-    height: 100%;
+    height: ${isMobile() ? '80%' : '100%'};
     display: flex;
     transform: translateX(${props => props.slideIndex * -100}vw);
     transition: transform 1.5s ease;
 `;
 
 const Slide = styled.div`
-    height: ${isTablet() ? '25vh' : (isDesktop() ? '35vh' : '')};
+    height: ${(isTablet() || isMoblet()) ? '25vh' : (isDesktop() ? '35vh' : '')};
     width: 100vw;
     display: flex;
     align-items: center;
@@ -54,21 +55,21 @@ const Slide = styled.div`
 
 const Image = styled.img`
     height: 100%;
-    width: ${isTablet() ? '100%' : (isDesktop() ? '60%' : '')};
+    width: ${isTablet() ? '100%' : (isDesktop() ? '60%' : '100%')};
 `;
 
 const CarouselDots = styled.div`
     position: absolute;
     display: flex;
-    bottom: 50px;
+    bottom: ${(isMobile() || isMoblet()) ? '20px' : '50px'};
     left: 50%;
     transform: translateX(-50%);
     display: flex;
 `;
 
 const Dot = styled.div`
-    width: 10px;
-    height: 10px;
+    width: ${(isMobile() || isMoblet()) ? '5px' : '10px'};
+    height: ${(isMobile() || isMoblet()) ? '5px' : '10px'};
     border-radius: 50%;
     margin: 0 10px;
     background: #a9a9a9;
