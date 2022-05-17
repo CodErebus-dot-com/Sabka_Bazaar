@@ -85,7 +85,7 @@ const Button = styled.button`
   width: ${(isMobile() || isMoblet()) ? '100%' : ''};
   &:hover {
     background-color: rgb(190,0,50);
-    transform: ${isMobile() ? '' : scale(1.1)};
+    transform: ${isMobile() ? '' : 'scale(1.1)'};
     transition: all 0.5s ease-in-out;
   }
   &:disabled {
