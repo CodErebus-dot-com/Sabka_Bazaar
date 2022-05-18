@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useAuth } from '../contexts/auth';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { isMobile, isDesktop } from '../utils/Helper';
 
@@ -59,6 +62,19 @@ const Button = styled.button`
 `;
 
 const Signin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectPath = location.state?.path || '/';
+
+  const handleLogin = () => {
+    auth.login(email, password);
+    navigate(redirectPath, {replace: true});
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -67,10 +83,10 @@ const Signin = () => {
           <Subtitle>Get Access to your Orders, Wishlist and Recommendations</Subtitle>
         </Left>
         <Right>
-          <Form>
-            <Input type='email' placeholder='Email' name='email' htmlFor='email'required />
-            <Input type='password' placeholder='Password' name='password' htmlFor='password' required />
-            <Button>SignUp</Button>
+          <Form onSubmit={handleLogin}>
+            <Input type='email' placeholder='Email' name='email' htmlFor='email'required onChange={e => setEmail(e.target.value)} />
+            <Input type='password' placeholder='Password' name='password' htmlFor='password' required onChange={e => setPassword(e.target.value) }/>
+            <Button>Login</Button>
           </Form>
         </Right>
       </Wrapper>
@@ -78,4 +94,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default Signin;

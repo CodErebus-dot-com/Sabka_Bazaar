@@ -19,8 +19,7 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-    // height: ${(isTablet() || isMoblet()) ? '120px' : (isDesktop() ? '150px' : '80px')};
-    height: 100%;
+    height: ${isDesktop() ? '150px' : '100%'};
     // width: ${(isTablet() || isMoblet()) ? '180px' : (isDesktop() ? '200px' : '120px')};
     width: 100%;
 `;
@@ -86,7 +85,7 @@ const FlexCards = () => {
                                 </Wrapper>
                             </ContentContainer>
                             <ImgContainer>
-                                <Image src = {category?.imageUrl} alt = {category?.name} />
+                                <Image src = {category?.imageUrl} alt = {category?.name} loading='lazy'/>
                             </ImgContainer>
                         </Container>        
                     </ErrorBoundary>
@@ -95,7 +94,7 @@ const FlexCards = () => {
                     <ErrorBoundary key={category?.id}>  
                         <Container>
                             <ImgContainer>
-                                <Image src = {category?.imageUrl} alt = {category?.name} />
+                                <Image src = {category?.imageUrl} alt = {category?.name} loading='lazy'/>
                             </ImgContainer>
                             <ContentContainer>
                                 <Wrapper>

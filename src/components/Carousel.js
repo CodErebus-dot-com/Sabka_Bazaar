@@ -115,7 +115,7 @@ const Carousel = () => {
             <Wrapper slideIndex = {slideIndex}>
                 {banners?.length > 0 && banners?.map(banner => (
                     <Slide key = {banner?.id}>
-                        <Image src = {banner?.bannerImageUrl} alt = {banner?.bannerImageAlt}/>
+                        <Image src = {banner?.bannerImageUrl} alt = {banner?.bannerImageAlt} loading="lazy"/>
                     </Slide>
                 ))}
             </Wrapper>

@@ -4,6 +4,7 @@ import ModalPortal from './ModalPortal';
 import { isTablet, isDesktop, isMobile, isMoblet } from '../utils/Helper';
 import CartIcon from './CartIcon';
 import Burger from './Burger';
+import { useAuth } from '../contexts/auth';
 
 const Container = styled.header`
     height: ${(isTablet() || isMoblet()) ? '80px' : (isDesktop() ? '100px' : '60px')};
@@ -106,7 +107,8 @@ const StyledLink = styled(NavLink)`
 `;
 
 const Navbar = ({openModal, modal}) => {
-    
+    const auth = useAuth();
+
   return (
     <Container>
         <Wrapper>
@@ -120,6 +122,7 @@ const Navbar = ({openModal, modal}) => {
                 isMobile() ? '' : (<>
                     <CenterListItem><StyledLink to = '/' className='navlink-hover'>Home</StyledLink></CenterListItem>
                     <CenterListItem><StyledLink to = '/products' className='navlink-hover'>Products</StyledLink></CenterListItem>
+                    <CenterListItem><StyledLink to = '/profile' className='navlink-hover'>Profile</StyledLink></CenterListItem>
                 </>)
             }   
             </Center>
@@ -132,8 +135,10 @@ const Navbar = ({openModal, modal}) => {
                     </>
                 ) : (
                     <RightListItem>
-                        <CartListItem><StyledLink to = '/signin' className='navlink-hover'>Sign In</StyledLink></CartListItem>
-                        <CartListItem><StyledLink to = '/register' className='navlink-hover'>Register</StyledLink></CartListItem>
+                        {!auth.email && !auth.password && <>
+                            <CartListItem><StyledLink to = '/signin' className='navlink-hover'>Sign In</StyledLink></CartListItem>
+                            <CartListItem><StyledLink to = '/register' className='navlink-hover'>Register</StyledLink></CartListItem>
+                        </>}
                         <CartIcon openModal={openModal} />
                         {modal && <ModalPortal openModal={openModal} modal={modal} />}
                     </RightListItem>
