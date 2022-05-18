@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from "./pages/Home";
-import Products from "./pages/Products";
 import Register from "./pages/Register";
 import Signin from "./pages/Signin";
 import NoMatch from './pages/NoMatch';
 import { GlobalContext } from './contexts/GlobalContext';
 import { useCategoriesFilter } from './utils/Helper';
+const Home = React.lazy(() => import('./pages/Home'));
+const Products = React.lazy(() => import('./pages/Products'));
 // import { useAsyncError } from './utils/Helper';
 
 const Wrapper = styled.div`
@@ -74,10 +74,10 @@ const App = () => {
           <Navbar openModal={openModal} modal={modal} />
           <BodyWrapper>
             <Routes>
-              <Route path = "/" element = {<Home />} />
-              <Route path = "products" element = {<Products />}>
-                <Route index element = {<Products />} />
-                <Route path = ":id" element = {<Products />} />
+              <Route path = "/" element = {<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
+              <Route path = "products" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>}>
+                <Route index element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
+                <Route path = ":id" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
               </Route>
               <Route path = "register" element = {<Register />} />
               <Route path = "signin" element = {<Signin />} />
