@@ -2,15 +2,15 @@ import React, { useContext, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { GlobalContext } from '../contexts/GlobalContext';
-import { priceFormat, smoothScrollToTop, isDesktop, isTablet } from '../utils/Helper';
+import { priceFormat, smoothScrollToTop, isDesktop, isTablet, isMobile, isMoblet } from '../utils/Helper';
 import { useNavigate } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 
 const Modal = styled.section`
     position: fixed;
-    height: ${isTablet() ? '70vh' : (isDesktop() ? '80vh' : '')};
+    height: ${isTablet() ? '70vh' : (isDesktop() ? '80vh' : '100vh')};
     right: ${isTablet() ? '20px' : (isDesktop() ? '60px' : '')};
-    width: ${isTablet() ? '50vw' : (isDesktop() ? '30vw' : '')};
+    width: ${isTablet() ? '50vw' : (isDesktop() ? '30vw' : '100vw')};
     z-index: 99;
     box-shadow: 5px 3px 30px #000;
     background-color: #fff;
@@ -20,7 +20,7 @@ const Modal = styled.section`
     }
     @keyframes showModal{
         0%{
-            bottom: -80vh;
+            bottom: ${isDesktop() ? '-80vh' : (isTablet() ? '-70vh' : ((isMobile() || isMoblet()) ? '-100vh' : ''))};
         }
         100%{
             bottom: 0;
@@ -32,13 +32,13 @@ const Modal = styled.section`
             bottom: 0;
         }
         100%{
-            bottom: -80vh;
+            bottom: ${isDesktop() ? '-80vh' : (isTablet() ? '-70vh' : ((isMobile() || isMoblet()) ? '-100vh' : ''))};
         }
     }
 `;
 
 const ModalHeader = styled.div`
-    height: ${isTablet() ? '5%' : (isDesktop() ? '10%' : '')};
+    height: ${isDesktop() ? '10%' : '5%'};
     background-color: #2b2d2f;
     color: #fff;
     display: flex;
@@ -47,7 +47,7 @@ const ModalHeader = styled.div`
     padding: 0 20px;
 `;
 const ModalTitle = styled.h1`
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
+    font-size: ${isDesktop() ? '20px' : '16px'};
 `;
 const ModalCloseButton = styled.button`
     background-color: transparent;
@@ -55,14 +55,14 @@ const ModalCloseButton = styled.button`
     cursor: pointer;
     color: #fff;
     font-weight: 600;
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
+    font-size: ${isDesktop() ? '20px' : '16px'};
     &:hover{
         transform: scale(1.1);
         transition: all 0.3s ease-in-out;
     }
 `;
 const ModalBody = styled.div`
-    height: ${isTablet() ? '80%' : (isDesktop() ? '70%' : '')};
+    height: ${isDesktop() ? '70%' : '80%'};
     overflow-y: auto;
 `;
 
@@ -76,11 +76,11 @@ const EmptyCart = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '18px' : '')};
+    font-size: ${isDesktop() ? '18px' : '16px'};
 `;
 
 const Subtitle = styled.p`
-    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
+    font-size: ${isDesktop() ? '16px' : '14px'};
     margin-top: 10px;
 `
 
@@ -113,7 +113,7 @@ const CartItemWrapper = styled.div`
 
 const Price = styled.div`
     font-weight: 600;
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '18px' : '')};
+    font-size: ${isDesktop() ? '18px' : '16px'};
 `;
 
 const CounterWrapper = styled.div`
@@ -129,7 +129,7 @@ const PricingWrapper = styled.div`
 `;
 
 const Counter = styled.button`
-    font-size: ${isTablet() ? '16px' : (isDesktop() ? '20px' : '')};
+    font-size: ${isDesktop() ? '20px' : '16px'};
     cursor: pointer;
     background-color: rgb(217,0,76);
     color: white;
@@ -153,7 +153,7 @@ const Counter = styled.button`
 
 const Text = styled.p`
     margin: 0 10px;
-    font-size: ${isTablet() ? '14px' : (isDesktop() ? '16px' : '')};
+    font-size: ${isDesktop() ? '16px' : '14px'};
 `;
 
 const LowestPriceWrapper = styled.div`
@@ -171,8 +171,8 @@ const LowestPriceImage = styled.img`
 `;
 
 const ModalFooter = styled.div`
-    height: ${isTablet() ? '15%' : (isDesktop() ? '20%' : '')};
-    margin: ${isTablet() ? '10px' : (isDesktop() ? '20px' : '')};  
+    height: ${isDesktop() ? '20%' : '15%'};
+    margin: ${isDesktop() ? '20px' : '10px'};  
 `;
 
 const CartFooterWrapper = styled.div`
@@ -224,74 +224,74 @@ const ModalPortal = ({openModal, modal}) => {
         smoothScrollToTop();
     }, [navigate]);
    
-        return ReactDOM.createPortal(
-        <Modal className={modal && 'modal-open'}>
-            <ErrorBoundary>
-                    <ModalHeader>
-                        <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
-                        <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
-                    </ModalHeader>
-                    <ModalBody>
+    return ReactDOM.createPortal(
+    <Modal className={modal && 'modal-open'}>
+        <ErrorBoundary>
+            <ModalHeader>
+                <ModalTitle>My Cart ({totalItemsInCart} {totalItemsInCart === 1 ? ' Item' : ' Items'})</ModalTitle>
+                <ModalCloseButton onClick={() => openModal(!modal)}>X</ModalCloseButton>
+            </ModalHeader>
+            <ModalBody>
+            {
+                totalItemsInCart === 0 ? (
+                    <EmptyCart>
+                        <Title>No items in your cart</Title>
+                        <Subtitle>Your favorite items are just a click away</Subtitle>
+                    </EmptyCart>        
+                ) : (
+                    <CartBody>
                     {
-                        totalItemsInCart === 0 ? (
-                            <EmptyCart>
-                                <Title>No items in your cart</Title>
-                                <Subtitle>Your favorite items are just a click away</Subtitle>
-                            </EmptyCart>        
-                        ) : (
-                            <CartBody>
-                            {
-                                cart?.length > 0 && cart?.map(item => {
-                                    return (
-                                        <CartWrapper key={item?.id}>
-                                            <Image src={item?.imageURL} alt={item?.name} />
-                                            <CartItemWrapper>
-                                                <Title>{item?.name}</Title>
-                                                <PricingWrapper>
-                                                    <CounterWrapper>
-                                                        <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
-                                                        <Text>{item?.quantity}</Text>
-                                                        <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
-                                                        <Text>X {item?.price}</Text>
-                                                    </CounterWrapper>
-                                                    <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
-                                                </PricingWrapper>
-                                            </CartItemWrapper>
-                                        </CartWrapper>
-                                    )
-                                })
-                            }
-                                <LowestPriceWrapper>
-                                    <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
-                                    <Text>You won't find it cheaper anywhere</Text>      
-                                </LowestPriceWrapper>
-                            </CartBody>
-                        )
-                    }
-                    </ModalBody>
-                    <ModalFooter>
-                        <CartFooterWrapper>
-                        {
-                            totalItemsInCart === 0 ? (
-                                
-                                    <CartFooter className='empty-cart' onClick={handleStartShopping}>
-                                        <Text>Start Shopping</Text>
-                                    </CartFooter>
-                                
-                            ) : (
-                                <>
-                                    <Text>Promo code can be applied on payment page</Text>
-                                    <CartFooter>
-                                        <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
-                                    </CartFooter>
-                                </>
+                        cart?.length > 0 && cart?.map(item => {
+                            return (
+                                <CartWrapper key={item?.id}>
+                                    <Image src={item?.imageURL} alt={item?.name} />
+                                    <CartItemWrapper>
+                                        <Title>{item?.name}</Title>
+                                        <PricingWrapper>
+                                            <CounterWrapper>
+                                                <Counter onClick={() => handleRemoveProduct(item)}>-</Counter>
+                                                <Text>{item?.quantity}</Text>
+                                                <Counter onClick={() => handleAddProduct(item)} disabled={item?.stock === 0}>+</Counter>
+                                                <Text>X {item?.price}</Text>
+                                            </CounterWrapper>
+                                            <Price>{priceFormat(item?.price  * item?.quantity)}</Price>
+                                        </PricingWrapper>
+                                    </CartItemWrapper>
+                                </CartWrapper>
                             )
-                        }
-                        </CartFooterWrapper>
-                    </ModalFooter>
-            </ErrorBoundary>
-        </Modal>,  
-        document.getElementById('modal-root'))   
+                        })
+                    }
+                        <LowestPriceWrapper>
+                            <LowestPriceImage src={process.env.PUBLIC_URL + 'static/images/lowest-price.png'} alt='Lowest Price Guaranteed' />
+                            <Text>You won't find it cheaper anywhere</Text>      
+                        </LowestPriceWrapper>
+                    </CartBody>
+                )
+            }
+            </ModalBody>
+            <ModalFooter>
+                <CartFooterWrapper>
+                {
+                    totalItemsInCart === 0 ? (
+                        
+                            <CartFooter className='empty-cart' onClick={handleStartShopping}>
+                                <Text>Start Shopping</Text>
+                            </CartFooter>
+                        
+                    ) : (
+                        <>
+                            <Text>Promo code can be applied on payment page</Text>
+                            <CartFooter>
+                                <Text>Proceed to checkout</Text><Text>{priceFormat(cartTotal)}</Text>
+                            </CartFooter>
+                        </>
+                    )
+                }
+                </CartFooterWrapper>
+            </ModalFooter>
+        </ErrorBoundary>
+    </Modal>,  
+    document.getElementById('modal-root'))   
 }
 
 export default ModalPortal;

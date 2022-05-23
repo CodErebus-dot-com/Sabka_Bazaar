@@ -74,25 +74,23 @@ const App = () => {
     <BrowserRouter>
       <AuthProvider>
       <GlobalContext.Provider value={{categories, cart, setCart, handleAddProduct}}>
-        
-          <Wrapper className={modal && 'modal-open'} onClick={event => modal && !event.target.closest('.modal') && openModal(!modal)}>
-            <Navbar openModal={openModal} modal={modal} />
-            <BodyWrapper>
-              <Routes>
-                <Route path = "/" element = {<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
-                <Route path = "products" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>}>
-                  <Route index element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
-                  <Route path = ":id" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
-                </Route>
-                <Route path = "profile" element = {<RequireAuth><Profile /></RequireAuth>} />
-                <Route path = "register" element = {<Register />} />
-                <Route path = "signin" element = {<Signin />} />
-                <Route path = "*" element = {<NoMatch/>} />
-              </Routes>
-            </BodyWrapper>
-            <Footer />
-          </Wrapper>
-        
+        <Wrapper className={modal && 'modal-open'} onClick={event => modal && !event.target.closest('.modal') && openModal(!modal)}>
+          <Navbar openModal={openModal} modal={modal} />
+          <BodyWrapper>
+            <Routes>
+              <Route path = "/" element = {<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
+              <Route path = "products" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>}>
+                <Route index element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
+                <Route path = ":id" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
+              </Route>
+              <Route path = "profile" element = {<RequireAuth><Profile /></RequireAuth>} />
+              <Route path = "register" element = {<Register />} />
+              <Route path = "signin" element = {<Signin />} />
+              <Route path = "*" element = {<NoMatch/>} />
+            </Routes>
+          </BodyWrapper>
+          <Footer />
+        </Wrapper>
       </GlobalContext.Provider>
       </AuthProvider>
     </BrowserRouter>

@@ -132,6 +132,7 @@ const Navbar = ({openModal, modal}) => {
                     <>
                         <Burger />
                         <CartIcon openModal={openModal} />
+                        {modal && <ModalPortal openModal={openModal} modal={modal} />}
                     </>
                 ) : (
                     <RightListItem>
