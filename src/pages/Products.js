@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { isDesktop, isMobile } from '../utils/Helper';
-const Sidebar = React.lazy(() => import('../components/Sidebar'));
-const Dropdown = React.lazy(() => import('../components/Dropdown'));
-const Catalogue = React.lazy(() => import('../components/Catalogue'));
+import Sidebar from '../components/Sidebar';
+import Dropdown from '../components/Dropdown';
+import Catalogue from '../components/Catalogue';
 
 const Container = styled.section`
   margin: ${isDesktop() ? '10px 10%' : ''};
@@ -17,10 +17,8 @@ const Products = () => {
     <>
       <Container>
         <ErrorBoundary>
-          <Suspense fallback={<div>Loading...</div>}>
-            {isMobile() ? <Dropdown /> : <Sidebar />}
-            <Catalogue />
-          </Suspense>
+          {isMobile() ? <Dropdown /> : <Sidebar />}
+          <Catalogue />
         </ErrorBoundary>
       </Container>
     </>

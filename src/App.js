@@ -13,6 +13,7 @@ const Home = React.lazy(() => import('./pages/Home'));
 const Products = React.lazy(() => import('./pages/Products'));
 import Profile from './pages/Profile';
 import RequireAuth from './components/RequireAuth';
+import SuspenseFallbackUI from './pages/SuspenseFallbackUI';
 // import { useAsyncError } from './utils/Helper';
 
 const Wrapper = styled.div`
@@ -78,10 +79,10 @@ const App = () => {
           <Navbar openModal={openModal} modal={modal} />
           <BodyWrapper>
             <Routes>
-              <Route path = "/" element = {<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
-              <Route path = "products" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>}>
-                <Route index element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
-                <Route path = ":id" element = {<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
+              <Route path = "/" element = {<Suspense fallback={<SuspenseFallbackUI />}><Home /></Suspense>} />
+              <Route path = "products" element = {<Suspense fallback={<SuspenseFallbackUI />}><Products /></Suspense>}>
+                <Route index element = {<Suspense fallback={<SuspenseFallbackUI />}><Products /></Suspense>} />
+                <Route path = ":id" element = {<Suspense fallback={<SuspenseFallbackUI />}><Products /></Suspense>} />
               </Route>
               <Route path = "profile" element = {<RequireAuth><Profile /></RequireAuth>} />
               <Route path = "register" element = {<Register />} />
